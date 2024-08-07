@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the libratechie/think-filesystem.
+ *
+ * (c) libratechie <libratechie@foxmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Libratechie\Think;
 
 use League\Flysystem\Filesystem;
@@ -24,34 +33,33 @@ abstract class Driver
     protected array $config = [];
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param Cache $cache Cache instance
+     * @param Cache $cache  Cache instance
      * @param array $config Configuration settings
      */
     public function __construct(Cache $cache, array $config)
     {
-        $this->cache  = $cache;
+        $this->cache = $cache;
         $this->config = array_merge($this->config, $config);
 
         // Create adapter instance
-        $this->adapter          = $this->createAdapter();
+        $this->adapter = $this->createAdapter();
         // Create filesystem instance
         $this->filesystem = $this->createFilesystem($this->adapter);
     }
 
     /**
      * Create adapter
-     * Subclasses must implement this method to create a specific filesystem adapter
-     *
-     * @return FilesystemAdapter
+     * Subclasses must implement this method to create a specific filesystem adapter.
      */
     abstract protected function createAdapter(): FilesystemAdapter;
 
     /**
-     * Create filesystem
+     * Create filesystem.
      *
      * @param FilesystemAdapter $adapter Adapter instance
+     *
      * @return Filesystem Returns the filesystem instance
      */
     protected function createFilesystem(FilesystemAdapter $adapter): Filesystem
@@ -63,9 +71,10 @@ abstract class Driver
     }
 
     /**
-     * Get path
+     * Get path.
      *
      * @param string $path Path
+     *
      * @return string Returns the path
      */
     public function path(string $path): string
@@ -74,22 +83,25 @@ abstract class Driver
     }
 
     /**
-     * Concatenate path and URL
+     * Concatenate path and URL.
      *
-     * @param string $url URL
+     * @param string $url  URL
      * @param string $path Path
+     *
      * @return string Returns the concatenated URL
      */
     protected function concatPathToUrl(string $url, string $path): string
     {
-        return rtrim($url, '/') . '/' . ltrim($path, '/');
+        return rtrim($url, '/').'/'.ltrim($path, '/');
     }
 
     /**
-     * Get file URL
+     * Get file URL.
      *
      * @param string $path Path
+     *
      * @throws RuntimeException Throws exception if the driver does not support retrieving URLs
+     *
      * @return string Returns the file URL
      */
     public function url(string $path): string
@@ -98,12 +110,13 @@ abstract class Driver
     }
 
     /**
-     * Store file
+     * Store file.
      *
-     * @param string $path Storage path
-     * @param File $file File instance
-     * @param null $rule Rule
-     * @param array $options Options
+     * @param string $path    Storage path
+     * @param File   $file    File instance
+     * @param null   $rule    Rule
+     * @param array  $options Options
+     *
      * @return bool|string Returns the path if storage is successful, otherwise returns false
      */
     public function putFile(string $path, File $file, $rule = null, array $options = []): bool|string
@@ -112,12 +125,13 @@ abstract class Driver
     }
 
     /**
-     * Store file with a specified name
+     * Store file with a specified name.
      *
-     * @param string $path Storage path
-     * @param File $file File instance
-     * @param string $name File name
-     * @param array $options Options
+     * @param string $path    Storage path
+     * @param File   $file    File instance
+     * @param string $name    File name
+     * @param array  $options Options
+     *
      * @return bool|string Returns the path if storage is successful, otherwise returns false
      */
     public function putFileAs(string $path, File $file, string $name, array $options = []): bool|string
@@ -125,7 +139,7 @@ abstract class Driver
         // Open file stream
         $stream = fopen($file->getRealPath(), 'r');
         // Generate storage path
-        $path   = trim($path . '/' . $name, '/');
+        $path = trim($path.'/'.$name, '/');
 
         // Store file
         $result = $this->put($path, $stream, $options);
@@ -139,11 +153,12 @@ abstract class Driver
     }
 
     /**
-     * Store file contents
+     * Store file contents.
      *
-     * @param string $path Storage path
+     * @param string $path     Storage path
      * @param string $contents File contents or file stream
-     * @param array $options Options
+     * @param array  $options  Options
+     *
      * @return bool Returns true if successful, otherwise false
      */
     protected function put(string $path, string $contents, array $options = []): bool
@@ -154,14 +169,16 @@ abstract class Driver
         } catch (UnableToWriteFile|UnableToSetVisibility) {
             return false;
         }
+
         return true;
     }
 
     /**
-     * Call filesystem method
+     * Call filesystem method.
      *
-     * @param string $method Method name
-     * @param array $parameters Parameters
+     * @param string $method     Method name
+     * @param array  $parameters Parameters
+     *
      * @return mixed Returns the result of the method call
      */
     public function __call(string $method, array $parameters)

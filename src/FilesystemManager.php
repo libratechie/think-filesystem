@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the libratechie/think-filesystem.
+ *
+ * (c) libratechie <libratechie@foxmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Libratechie\Think;
 
 use InvalidArgumentException;
@@ -8,7 +17,7 @@ use think\Manager;
 
 /**
  * Filesystem management class
- * Responsible for managing and configuring different file storage drivers
+ * Responsible for managing and configuring different file storage drivers.
  */
 class FilesystemManager extends Manager
 {
@@ -16,9 +25,10 @@ class FilesystemManager extends Manager
     protected $namespace = '\\Libratechie\\Think\\driver\\';
 
     /**
-     * Get the specified disk driver
+     * Get the specified disk driver.
      *
-     * @param null|string $name Disk name
+     * @param string|null $name Disk name
+     *
      * @return Driver Returns the corresponding driver instance
      */
     public function disk(string $name = null): Driver
@@ -27,9 +37,10 @@ class FilesystemManager extends Manager
     }
 
     /**
-     * Resolve the disk type configuration
+     * Resolve the disk type configuration.
      *
      * @param string $name Disk name
+     *
      * @return string Returns the disk type configuration
      */
     protected function resolveType(string $name): string
@@ -38,10 +49,12 @@ class FilesystemManager extends Manager
     }
 
     /**
-     * Get all configurations of the disk
+     * Get all configurations of the disk.
      *
      * @param string $name Disk name
+     *
      * @return mixed Returns the disk configuration
+     *
      * @throws InvalidArgumentException Throws exception when the specified disk is not found
      */
     protected function resolveConfig(string $name): mixed
@@ -50,28 +63,31 @@ class FilesystemManager extends Manager
     }
 
     /**
-     * Get the configuration of the filesystem
+     * Get the configuration of the filesystem.
      *
-     * @param string|null $name Configuration item name
-     * @param mixed|null $default Default value
+     * @param string|null $name    Configuration item name
+     * @param mixed|null  $default Default value
+     *
      * @return mixed Returns the corresponding configuration value
      */
     public function getConfig(string $name = null, mixed $default = null): mixed
     {
         if (!is_null($name)) {
-            return $this->app->config->get('filesystem.' . $name, $default);
+            return $this->app->config->get('filesystem.'.$name, $default);
         }
 
         return $this->app->config->get('filesystem');
     }
 
     /**
-     * Get the configuration of the specified disk
+     * Get the configuration of the specified disk.
      *
-     * @param string $disk Disk name
-     * @param null $name Configuration item name
-     * @param null $default Default value
+     * @param string $disk    Disk name
+     * @param null   $name    Configuration item name
+     * @param null   $default Default value
+     *
      * @return mixed Returns the disk configuration
+     *
      * @throws InvalidArgumentException Throws exception when the specified disk is not found
      */
     public function getDiskConfig(string $disk, $name = null, $default = null): mixed
@@ -86,7 +102,7 @@ class FilesystemManager extends Manager
     }
 
     /**
-     * Get the default driver name
+     * Get the default driver name.
      *
      * @return string|null Returns the default driver name
      */

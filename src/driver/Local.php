@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the libratechie/think-filesystem.
+ *
+ * (c) libratechie <libratechie@foxmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Libratechie\Think\driver;
 
 use League\Flysystem\FilesystemAdapter;
@@ -19,17 +28,17 @@ class Local extends Driver
     ];
 
     /**
-     * @var PathPrefixer|Null Path prefix handler
+     * @var PathPrefixer|null Path prefix handler
      */
     protected ?PathPrefixer $prefixer;
 
     /**
-     * @var PathNormalizer|Null Path normalization handler
+     * @var PathNormalizer|null Path normalization handler
      */
     protected ?PathNormalizer $normalizer;
 
     /**
-     * Create a local filesystem adapter
+     * Create a local filesystem adapter.
      *
      * @return FilesystemAdapter Returns the filesystem adapter instance
      */
@@ -56,7 +65,7 @@ class Local extends Driver
     }
 
     /**
-     * Get the path prefix handler instance
+     * Get the path prefix handler instance.
      *
      * @return PathPrefixer Returns the path prefix handler instance
      */
@@ -65,11 +74,12 @@ class Local extends Driver
         if (!$this->prefixer) {
             $this->prefixer = new PathPrefixer($this->config['root'], DIRECTORY_SEPARATOR);
         }
+
         return $this->prefixer;
     }
 
     /**
-     * Get the path normalization handler instance
+     * Get the path normalization handler instance.
      *
      * @return WhitespacePathNormalizer Returns the path normalization handler instance
      */
@@ -78,13 +88,15 @@ class Local extends Driver
         if (!$this->normalizer) {
             $this->normalizer = new WhitespacePathNormalizer();
         }
+
         return $this->normalizer;
     }
 
     /**
-     * Get the file access URL
+     * Get the file access URL.
      *
      * @param string $path File path
+     *
      * @return string Returns the file access URL
      */
     public function url(string $path): string
@@ -95,14 +107,16 @@ class Local extends Driver
         if (isset($this->config['url'])) {
             return $this->concatPathToUrl($this->config['url'], $path);
         }
+
         // Otherwise, call the parent method
         return parent::url($path);
     }
 
     /**
-     * Get the full file path
+     * Get the full file path.
      *
      * @param string $path File path
+     *
      * @return string Returns the full file path
      */
     public function path(string $path): string
