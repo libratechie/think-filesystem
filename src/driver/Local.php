@@ -30,12 +30,12 @@ class Local extends Driver
     /**
      * @var PathPrefixer|null Path prefix handler
      */
-    protected ?PathPrefixer $prefixer;
+    protected ?PathPrefixer $prefixer = null;
 
     /**
      * @var PathNormalizer|null Path normalization handler
      */
-    protected ?PathNormalizer $normalizer;
+    protected ?PathNormalizer $normalizer = null;
 
     /**
      * Create a local filesystem adapter.
