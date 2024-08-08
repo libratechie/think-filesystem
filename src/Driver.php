@@ -136,41 +136,21 @@ abstract class Driver
      */
     public function putFileAs(string $path, File $file, string $name, array $options = []): bool|string
     {
-        // Open file stream
-        $stream = fopen($file->getRealPath(), 'r');
-        // Generate storage path
-        $path = trim($path.'/'.$name, '/');
-
-        // Store file
-        $result = $this->put($path, $stream, $options);
-
-        // Close file stream
-        if (is_resource($stream)) {
-            fclose($stream);
-        }
-
-        return $result ? $path : false;
-    }
-
-    /**
-     * Store file contents.
-     *
-     * @param string $path     Storage path
-     * @param string $contents File contents or file stream
-     * @param array  $options  Options
-     *
-     * @return bool Returns true if successful, otherwise false
-     */
-    protected function put(string $path, string $contents, array $options = []): bool
-    {
         try {
+            // Generate storage path
+            $path = trim($path.'/'.$name, '/');
+            // Open file stream
+            $stream = fopen($file->getRealPath(), 'r');
             // Write file stream
-            $this->writeStream($path, $contents, $options);
+            $this->writeStream($path, $stream, $options);
+            // Close file stream
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
         } catch (UnableToWriteFile|UnableToSetVisibility) {
             return false;
         }
-
-        return true;
+        return $path;
     }
 
     /**
