@@ -1,5 +1,5 @@
 {
-    "name": "libratechie/think-flysystem",
+    "name": "libratechie/think-filesystem",
     "description": "ThinkPHP flysystem package",
     "type": "library",
     "license": "MIT",
