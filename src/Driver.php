@@ -150,6 +150,7 @@ abstract class Driver
         } catch (UnableToWriteFile|UnableToSetVisibility) {
             return false;
         }
+
         return $path;
     }
 
